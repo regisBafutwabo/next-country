@@ -1,0 +1,9 @@
+overwrite: true
+schema: "https://countries-274616.ew.r.appspot.com/"
+documents: "lib/**/*.query.ts"
+generates:
+  generated/graphql.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"

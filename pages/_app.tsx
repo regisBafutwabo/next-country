@@ -1,13 +1,30 @@
-import { AppProps } from 'next/app'
-import { ApolloProvider } from '@apollo/client'
-import { useApollo } from '../lib/apollo'
+import {AppProps} from 'next/app';
+import Head from 'next/head';
+import {ApolloProvider} from '@apollo/client';
+import {CssBaseline} from '@material-ui/core';
+import {ThemeProvider} from '@material-ui/styles';
 
-export default function App({ Component, pageProps }: AppProps) {
-  const apolloClient = useApollo(pageProps.initialApolloState)
+import {createApolloClient} from '../lib';
+import {theme} from '../styles';
+
+export default function App({Component, pageProps}: AppProps) {
+  const apolloClient = createApolloClient();
 
   return (
-    <ApolloProvider client={apolloClient}>
-      <Component {...pageProps} />
-    </ApolloProvider>
-  )
+    <>
+      <Head>
+        <title> Countries </title>
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width"
+        />
+      </Head>
+      <ApolloProvider client={apolloClient}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </ApolloProvider>
+    </>
+  );
 }
