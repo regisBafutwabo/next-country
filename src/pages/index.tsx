@@ -17,7 +17,7 @@ const Home = () => {
     {data: countries, loading, error},
   ] = useGetCountriesLazyQuery();
 
-  const onChangePage = (event: any, newPage: number) => {
+  const onChangePage = (_: any, newPage: number) => {
     setPage(newPage);
   };
 
