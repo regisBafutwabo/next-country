@@ -4,8 +4,8 @@ import {ApolloProvider} from '@apollo/client';
 import {CssBaseline} from '@material-ui/core';
 import {ThemeProvider} from '@material-ui/styles';
 
-import {createApolloClient} from '../lib';
-import {theme} from '../styles';
+import {createApolloClient} from 'apollo';
+import {theme} from 'styles';
 
 export default function App({Component, pageProps}: AppProps) {
   const apolloClient = createApolloClient();

@@ -1335,6 +1335,7 @@ export type GetCountriesQueryVariables = Exact<{
   first?: Maybe<Scalars['Int']>;
   orderBy?: Maybe<Array<Maybe<_CountryOrdering>> | Maybe<_CountryOrdering>>;
   offset?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -1345,25 +1346,22 @@ export type GetCountriesQuery = (
     & Pick<Country, 'name' | 'alpha3Code'>
     & { flag?: Maybe<(
       { __typename?: 'Flag' }
-      & Pick<Flag, 'emoji'>
+      & Pick<Flag, 'svgFile'>
     )> }
   )>>> }
 );
 
-export type GetCountryByNameQueryVariables = Exact<{
+export type GetCountryInfoQueryVariables = Exact<{
   name?: Maybe<Scalars['String']>;
 }>;
 
 
-export type GetCountryByNameQuery = (
+export type GetCountryInfoQuery = (
   { __typename?: 'Query' }
   & { Country?: Maybe<Array<Maybe<(
     { __typename?: 'Country' }
-    & Pick<Country, 'area' | 'capital' | 'gini' | 'nativeName' | 'population'>
-    & { location: (
-      { __typename?: '_Neo4jPoint' }
-      & Pick<_Neo4jPoint, 'longitude' | 'latitude'>
-    ), callingCodes?: Maybe<Array<Maybe<(
+    & Pick<Country, 'name' | 'area' | 'capital' | 'nativeName' | 'population'>
+    & { callingCodes?: Maybe<Array<Maybe<(
       { __typename?: 'CallingCode' }
       & Pick<CallingCode, 'name'>
     )>>>, currencies?: Maybe<Array<Maybe<(
@@ -1371,10 +1369,7 @@ export type GetCountryByNameQuery = (
       & Pick<Currency, 'symbol' | 'name'>
     )>>>, flag?: Maybe<(
       { __typename?: 'Flag' }
-      & Pick<Flag, 'emoji'>
-    )>, subregion?: Maybe<(
-      { __typename?: 'Subregion' }
-      & Pick<Subregion, 'name'>
+      & Pick<Flag, 'emoji' | 'svgFile'>
     )>, officialLanguages?: Maybe<Array<Maybe<(
       { __typename?: 'Language' }
       & Pick<Language, 'name'>
@@ -1387,12 +1382,12 @@ export type GetCountryByNameQuery = (
 
 
 export const GetCountriesDocument = gql`
-    query GetCountries($first: Int, $orderBy: [_CountryOrdering], $offset: Int) {
-  Country(first: $first, orderBy: $orderBy, offset: $offset) {
+    query GetCountries($first: Int, $orderBy: [_CountryOrdering], $offset: Int, $name: String) {
+  Country(first: $first, orderBy: $orderBy, offset: $offset, name: $name) {
     name
     alpha3Code
     flag {
-      emoji
+      svgFile
     }
   }
 }
@@ -1413,6 +1408,7 @@ export const GetCountriesDocument = gql`
  *      first: // value for 'first'
  *      orderBy: // value for 'orderBy'
  *      offset: // value for 'offset'
+ *      name: // value for 'name'
  *   },
  * });
  */
@@ -1427,16 +1423,12 @@ export function useGetCountriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type GetCountriesQueryHookResult = ReturnType<typeof useGetCountriesQuery>;
 export type GetCountriesLazyQueryHookResult = ReturnType<typeof useGetCountriesLazyQuery>;
 export type GetCountriesQueryResult = Apollo.QueryResult<GetCountriesQuery, GetCountriesQueryVariables>;
-export const GetCountryByNameDocument = gql`
-    query GetCountryByName($name: String) {
+export const GetCountryInfoDocument = gql`
+    query GetCountryInfo($name: String) {
   Country(name: $name) {
+    name
     area
     capital
-    gini
-    location {
-      longitude
-      latitude
-    }
     nativeName
     population
     callingCodes {
@@ -1448,9 +1440,7 @@ export const GetCountryByNameDocument = gql`
     }
     flag {
       emoji
-    }
-    subregion {
-      name
+      svgFile
     }
     officialLanguages {
       name
@@ -1463,29 +1453,29 @@ export const GetCountryByNameDocument = gql`
     `;
 
 /**
- * __useGetCountryByNameQuery__
+ * __useGetCountryInfoQuery__
  *
- * To run a query within a React component, call `useGetCountryByNameQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCountryByNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetCountryInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCountryInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetCountryByNameQuery({
+ * const { data, loading, error } = useGetCountryInfoQuery({
  *   variables: {
  *      name: // value for 'name'
  *   },
  * });
  */
-export function useGetCountryByNameQuery(baseOptions?: Apollo.QueryHookOptions<GetCountryByNameQuery, GetCountryByNameQueryVariables>) {
+export function useGetCountryInfoQuery(baseOptions?: Apollo.QueryHookOptions<GetCountryInfoQuery, GetCountryInfoQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetCountryByNameQuery, GetCountryByNameQueryVariables>(GetCountryByNameDocument, options);
+        return Apollo.useQuery<GetCountryInfoQuery, GetCountryInfoQueryVariables>(GetCountryInfoDocument, options);
       }
-export function useGetCountryByNameLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCountryByNameQuery, GetCountryByNameQueryVariables>) {
+export function useGetCountryInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCountryInfoQuery, GetCountryInfoQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetCountryByNameQuery, GetCountryByNameQueryVariables>(GetCountryByNameDocument, options);
+          return Apollo.useLazyQuery<GetCountryInfoQuery, GetCountryInfoQueryVariables>(GetCountryInfoDocument, options);
         }
-export type GetCountryByNameQueryHookResult = ReturnType<typeof useGetCountryByNameQuery>;
-export type GetCountryByNameLazyQueryHookResult = ReturnType<typeof useGetCountryByNameLazyQuery>;
-export type GetCountryByNameQueryResult = Apollo.QueryResult<GetCountryByNameQuery, GetCountryByNameQueryVariables>;
+export type GetCountryInfoQueryHookResult = ReturnType<typeof useGetCountryInfoQuery>;
+export type GetCountryInfoLazyQueryHookResult = ReturnType<typeof useGetCountryInfoLazyQuery>;
+export type GetCountryInfoQueryResult = Apollo.QueryResult<GetCountryInfoQuery, GetCountryInfoQueryVariables>;

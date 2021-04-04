@@ -1,15 +1,11 @@
 import {gql} from '@apollo/client';
 
-export const getCountryByName = gql`
-  query GetCountryByName($name: String) {
+export const getCountryInfo = gql`
+  query GetCountryInfo($name: String) {
     Country(name: $name) {
+      name
       area
       capital
-      gini
-      location {
-        longitude
-        latitude
-      }
       nativeName
       population
       callingCodes {
@@ -21,9 +17,7 @@ export const getCountryByName = gql`
       }
       flag {
         emoji
-      }
-      subregion {
-        name
+        svgFile
       }
       officialLanguages {
         name

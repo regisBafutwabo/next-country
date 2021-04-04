@@ -11,6 +11,11 @@ export default class MyDocument extends Document {
           {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
           <link
+            rel="icon"
+            type="image/svg"
+            href="https://upload.wikimedia.org/wikipedia/commons/9/99/Ambox_globe_Americas.svg"
+          />
+          <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />

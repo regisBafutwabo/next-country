@@ -1,10 +1,13 @@
 import {
+  Avatar,
   Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
+  TableFooter,
   TableHead,
+  TablePagination,
   TableRow,
 } from '@material-ui/core';
 import Link from 'next/link';
@@ -13,13 +16,16 @@ import {CountryTableProps} from './CountryTable.interface';
 import {TableHeadRow} from './styles';
 
 export const CountryTable = (props: CountryTableProps) => {
-  const {countries} = props;
-
-  const preventDefault = (event: React.SyntheticEvent) =>
-    event.preventDefault();
+  const {
+    countries,
+    page,
+    rowsCount,
+    handleChangePage,
+    handleRowsChange,
+  } = props;
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} elevation={3}>
       <Table>
         <TableHead>
           <TableHeadRow>
@@ -33,7 +39,7 @@ export const CountryTable = (props: CountryTableProps) => {
             countries.map((country: Country) => (
               <TableRow key={country.alpha3Code} hover>
                 <TableCell component="th" scope="row">
-                  {country.flag?.emoji}
+                  <Avatar src={country.flag?.svgFile} alt={country.name} />
                 </TableCell>
                 <TableCell component="th" scope="row">
                   <Link href={`/country/${country.name}`}>{country.name}</Link>
@@ -44,6 +50,24 @@ export const CountryTable = (props: CountryTableProps) => {
               </TableRow>
             ))}
         </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25, 50]}
+              colSpan={3}
+              count={250}
+              rowsPerPage={rowsCount}
+              page={page}
+              SelectProps={{
+                inputProps: {'aria-label': 'rows per page'},
+                native: true,
+              }}
+              onChangePage={handleChangePage}
+              onChangeRowsPerPage={handleRowsChange}
+              // ActionsComponent={TablePaginationActions}
+            />
+          </TableRow>
+        </TableFooter>
       </Table>
     </TableContainer>
   );
