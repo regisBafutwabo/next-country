@@ -1,5 +1,4 @@
 import {GetServerSideProps} from 'next';
-import Head from 'next/head';
 
 import {createApolloClient} from 'apollo';
 import {getCountryInfo} from 'apollo/queries';
