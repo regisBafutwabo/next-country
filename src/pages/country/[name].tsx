@@ -12,9 +12,6 @@ const CountryDetail = (props: any) => {
 
   return (
     <>
-      <Head>
-        <title>{country.name}</title>
-      </Head>
       <Header title={`${country.flag?.emoji} ${country.name}`} />
       <CenterContainer>
         <CountryInfo Country={country} />
